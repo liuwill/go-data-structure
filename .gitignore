@@ -1,0 +1,5 @@
+cover.out
+coverage.txt
+coverage.html
+*/*.test
+dist/
