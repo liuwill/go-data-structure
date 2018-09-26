@@ -3,7 +3,7 @@ package radix_sort
 import "testing"
 
 func isLessFirst(list []int) bool {
-	for i := 0; i < len(list) - 1; i++ {
+	for i := 0; i < len(list)-1; i++ {
 		if list[i] > list[i+1] {
 			return false
 		}
@@ -11,7 +11,7 @@ func isLessFirst(list []int) bool {
 	return true
 }
 
-func Test_RadixSort(t *testing.T){
+func Test_RadixSort(t *testing.T) {
 	source := []int{4, 35, 12, 16}
 	target := radixSort(source)
 

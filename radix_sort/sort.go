@@ -1,15 +1,14 @@
 package radix_sort
 
 func radixSort(list []int) []int {
-	radixList := make([]int, 10)
-	radixCountList :=  make([]int, 10)
-
 	ll := len(list)
 	bit := 1
 	hasBit := true
-	middleList := make([]int, ll)
 	for hasBit {
 		hasBit = false
+		radixList := make([]int, 10)
+		radixCountList := make([]int, 10)
+		middleList := make([]int, ll)
 
 		for i := 0; i < ll; i++ {
 			middle := list[i] / bit
@@ -27,16 +26,17 @@ func radixSort(list []int) []int {
 
 		start := 0
 		for index, val := range radixCountList {
-			radixList[index] = start + val - 1
-			start = start + val - 1
+			radixList[index] = start + val
+			start = start + val
 		}
 
+		// fmt.Printf("%v => %v  +  %v\n", radixCountList, radixList, list)
 		for j := len(list) - 1; j >= 0; j-- {
 			cursor := (list[j] / bit) % 10
-			pos := radixList[cursor]
+			pos := radixList[cursor] - 1
 
 			radixList[cursor]--
-			println(pos, j, cursor)
+			// println(pos, j, list[j], cursor)
 			middleList[pos] = list[j]
 		}
 
