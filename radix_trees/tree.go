@@ -26,9 +26,10 @@ func (tree *RadixTree) insert(word string) {
 	currentNode := tree.root
 	pos := 0
 	isMatch := false
+	ll := len(word)
 	// lastNode := tree.root
 
-	for _, node := range currentNode.children {
+	for index, node := range currentNode.children {
 		if node.start != string(word[pos]) {
 			continue
 		}
@@ -36,20 +37,42 @@ func (tree *RadixTree) insert(word string) {
 		currentMatch := node.current
 
 		inner := 0
+		innerFull := true
 		for i := 0; i < len(currentMatch); i++ {
-			if word[pos+i] != currentMatch[i] {
+			if pos+i > ll-1 || word[pos+i] != currentMatch[i] {
+				innerFull = false
 				break
 			}
 			inner++
 		}
 
-		if inner > 0 {
+		if inner > 0 && innerFull {
 			currentNode = node
 			pos = pos + inner
 			continue
-		}
+		} else if inner > 0 {
+			node.start = string(currentMatch[inner])
+			node.current = currentMatch[inner:]
+			newNode := &TreeNode{
+				start:   string(word[pos]),
+				current: word[pos : pos+inner],
+				children: []*TreeNode{
+					node,
+				},
+			}
 
-		isMatch = true
+			if pos+inner < ll-1 {
+				newNode.children = append(newNode.children, &TreeNode{
+					start:    string(word[pos+inner]),
+					current:  word[pos+inner:],
+					children: []*TreeNode{},
+				})
+			}
+			currentNode.children[index] = newNode
+
+			isMatch = true
+			break
+		}
 	}
 
 	if !isMatch {
