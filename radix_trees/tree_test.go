@@ -10,11 +10,11 @@ func Test_RadixSearch(t *testing.T) {
 	wordNotExist := ""
 
 	tree := buildRadixTree(source)
-	if searchRadix(tree, wordExist) {
+	if !searchRadix(tree, wordExist) {
 		t.Error("Test_RadixSearch Exist Fail", wordExist)
 	}
 
-	if !searchRadix(tree, wordNotExist) {
+	if searchRadix(tree, wordNotExist) {
 		t.Error("Test_RadixSearch NotExist Fail", wordNotExist)
 	}
 

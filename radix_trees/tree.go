@@ -1,5 +1,7 @@
 package radix_trees
 
+import "fmt"
+
 type TreeNode struct {
 	isRoot   bool
 	start    string
@@ -85,7 +87,37 @@ func (tree *RadixTree) insert(word string) {
 }
 
 func (tree *RadixTree) find(word string) *TreeNode {
-	return nil
+	var result *TreeNode
+	result = nil
+
+	pos := 0
+	currentNode := tree.root
+	for _, node := range currentNode.children {
+		index := 0
+		for i := 0; i < len(currentNode.current); i++ {
+			if i+pos >= len(word) {
+				break
+			}
+
+			if word[pos+i] != currentNode.current[i] {
+				break
+			}
+			index++
+		}
+
+		if index > 0 && index == len(currentNode.current) && pos+index == len(word) {
+			result = currentNode
+			break
+		}
+
+		println(pos, word, index, currentNode.current)
+		if pos < len(word) && string(word[pos]) == node.start {
+			currentNode = node
+		}
+	}
+
+	fmt.Printf("====== %v", result)
+	return result
 }
 
 func buildRadixTree(source []string) *RadixTree {
@@ -99,5 +131,6 @@ func buildRadixTree(source []string) *RadixTree {
 
 func searchRadix(tree *RadixTree, word string) bool {
 	node := tree.find(word)
+
 	return node != nil
 }
