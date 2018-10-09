@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func printTree(tree *RadixTree) {
+func printRadixTree(tree *RadixTree) {
 	stack := []*TreeNode{
 		tree.root,
 	}
@@ -26,7 +26,11 @@ func printTree(tree *RadixTree) {
 }
 
 func Test_RadixSearch(t *testing.T) {
-	source := []string{"api", "list", "new", "newest", "little", "long"}
+	source := []string{
+		"api", "list", "new", "newest", "little", "long",
+		"pie", "pai", "paid",
+		"old", "older", "olderer",
+	}
 	wordExists := []string{
 		// "api",
 		"long",
@@ -36,7 +40,7 @@ func Test_RadixSearch(t *testing.T) {
 	}
 
 	tree := buildRadixTree(source)
-	printTree(tree)
+	printRadixTree(tree)
 	for _, isExist := range wordExists {
 		if !searchRadix(tree, isExist) {
 			t.Error("Test_RadixSearch Exist Fail", isExist)

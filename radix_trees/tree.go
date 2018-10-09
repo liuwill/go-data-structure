@@ -25,13 +25,93 @@ func CreateRadixTree() *RadixTree {
 }
 
 func (tree *RadixTree) insert(word string) {
+	stack := []*TreeNode{
+		tree.root,
+	}
+
+	pos := 0
+	isMatch := false
+	ll := len(word)
+
+	top := 0
+	currentNode := stack[top]
+
+	// println("INPUT:", word)
+	for top < len(stack) {
+		currentNode = stack[top]
+		top++
+
+		// fmt.Printf("%v \n", currentNode)
+		for index, node := range currentNode.children {
+			if node.start != string(word[pos]) {
+				continue
+			}
+
+			currentMatch := node.current
+
+			inner := 0
+			innerFull := true
+			for i := 0; i < len(currentMatch); i++ {
+				if pos+i > ll-1 || word[pos+i] != currentMatch[i] {
+					innerFull = false
+					break
+				}
+				inner++
+			}
+
+			if inner > 0 && innerFull {
+				// println(node.start, node.current, "@@@@@@@")
+				currentNode = node
+				pos = pos + inner
+
+				stack = append(stack[:], node)
+				break
+			} else if inner > 0 {
+				node.start = string(currentMatch[inner])
+				node.current = currentMatch[inner:]
+				newNode := &TreeNode{
+					start:   string(word[pos]),
+					current: word[pos : pos+inner],
+					children: []*TreeNode{
+						node,
+					},
+				}
+
+				if pos+inner < ll-1 {
+					newNode.children = append(newNode.children, &TreeNode{
+						start:    string(word[pos+inner]),
+						current:  word[pos+inner:],
+						children: []*TreeNode{},
+					})
+				}
+				currentNode.children[index] = newNode
+			}
+
+			isMatch = true
+			break
+		}
+	}
+
+	if !isMatch {
+		currentNode.children = append(currentNode.children[:], &TreeNode{
+			start:    string(word[pos]),
+			current:  word[pos:],
+			children: []*TreeNode{},
+		})
+	}
+}
+
+/*
+func (tree *RadixTree) insertTest(word string) {
 	currentNode := tree.root
 	pos := 0
 	isMatch := false
 	ll := len(word)
 	// lastNode := tree.root
+	println(word, "+++")
 
 	for index, node := range currentNode.children {
+		fmt.Printf("%v\n", currentNode)
 		if node.start != string(word[pos]) {
 			continue
 		}
@@ -49,6 +129,7 @@ func (tree *RadixTree) insert(word string) {
 		}
 
 		if inner > 0 && innerFull {
+			println(node.start, node.current, "@@@@@@@")
 			currentNode = node
 			pos = pos + inner
 			continue
@@ -85,6 +166,7 @@ func (tree *RadixTree) insert(word string) {
 		})
 	}
 }
+*/
 
 func (tree *RadixTree) find(word string) *TreeNode {
 	var result *TreeNode
@@ -110,10 +192,11 @@ func (tree *RadixTree) find(word string) *TreeNode {
 			break
 		}
 
-		println(pos, word, index, currentNode.current)
 		if pos < len(word) && string(word[pos]) == node.start {
 			currentNode = node
+			println("****", string(word[pos]), pos)
 		}
+		println(pos, word, index, node.start)
 	}
 
 	fmt.Printf("====== %v", result)
