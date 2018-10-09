@@ -1,18 +1,20 @@
 package radix_trees
 
 type TreeNode struct {
-	start    rune
+	isRoot   bool
+	start    byte
 	current  string
 	children []*TreeNode
 }
 
 type RadixTree struct {
-	root TreeNode
+	root *TreeNode
 }
 
 func CreateRadixTree() *RadixTree {
 	tree := &RadixTree{
-		root: TreeNode{
+		root: &TreeNode{
+			isRoot:   true,
 			children: []*TreeNode{},
 		},
 	}
@@ -21,6 +23,24 @@ func CreateRadixTree() *RadixTree {
 }
 
 func (tree *RadixTree) insert(word string) {
+	currentNode := tree.root
+	pos := 0
+	isMatch := false
+
+	for _, node := range currentNode.children {
+		if node.start == word[pos] {
+			isMatch = true
+			currentNode = node
+		}
+	}
+
+	if !isMatch {
+		currentNode.children = append(currentNode.children[:], &TreeNode{
+			start:    word[pos],
+			current:  word[pos:],
+			children: []*TreeNode{},
+		})
+	}
 }
 
 func (tree *RadixTree) find(word string) *TreeNode {

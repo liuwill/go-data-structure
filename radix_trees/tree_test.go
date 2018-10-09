@@ -1,13 +1,18 @@
 package radix_trees
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func Test_RadixSearch(t *testing.T) {
-	source := []string{}
-	wordExist := ""
+	source := []string{"api", "list"}
+	wordExist := "api"
 	wordNotExist := ""
 
 	tree := buildRadixTree(source)
+
+	fmt.Printf("==> %v", tree.root.children[1].current)
 	if searchRadix(tree, wordExist) {
 		t.Error("Test_RadixSearch Exist Fail", wordExist)
 	}
@@ -16,5 +21,5 @@ func Test_RadixSearch(t *testing.T) {
 		t.Error("Test_RadixSearch NotExist Fail", wordNotExist)
 	}
 
-	t.Log("Test_RadixSearch Success")
+	t.Log("Test_RadixSearch Radix Search Tree")
 }
