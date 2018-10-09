@@ -2,7 +2,7 @@ package radix_trees
 
 type TreeNode struct {
 	isRoot   bool
-	start    byte
+	start    string
 	current  string
 	children []*TreeNode
 }
@@ -26,17 +26,35 @@ func (tree *RadixTree) insert(word string) {
 	currentNode := tree.root
 	pos := 0
 	isMatch := false
+	// lastNode := tree.root
 
 	for _, node := range currentNode.children {
-		if node.start == word[pos] {
-			isMatch = true
-			currentNode = node
+		if node.start != string(word[pos]) {
+			continue
 		}
+
+		currentMatch := node.current
+
+		inner := 0
+		for i := 0; i < len(currentMatch); i++ {
+			if word[pos+i] != currentMatch[i] {
+				break
+			}
+			inner++
+		}
+
+		if inner > 0 {
+			currentNode = node
+			pos = pos + inner
+			continue
+		}
+
+		isMatch = true
 	}
 
 	if !isMatch {
 		currentNode.children = append(currentNode.children[:], &TreeNode{
-			start:    word[pos],
+			start:    string(word[pos]),
 			current:  word[pos:],
 			children: []*TreeNode{},
 		})
