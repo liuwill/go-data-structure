@@ -58,13 +58,15 @@ func (tree *RadixTree) insert(word string) {
 			}
 
 			if inner > 0 && innerFull {
+				// 如果完全匹配当前节点，需要继续匹配子节点
 				// println(node.start, node.current, "@@@@@@@")
 				currentNode = node
-				pos = pos + inner
+				pos += inner
 
 				stack = append(stack[:], node)
 				break
 			} else if inner > 0 {
+				// 如果需要分裂当前节点的处理
 				node.start = string(currentMatch[inner])
 				node.current = currentMatch[inner:]
 				newNode := &TreeNode{
@@ -90,10 +92,15 @@ func (tree *RadixTree) insert(word string) {
 		}
 	}
 
-	if !isMatch {
+	if isMatch {
+		return
+	}
+
+	matchPattern := word[pos:]
+	if len(matchPattern) > 0 {
 		currentNode.children = append(currentNode.children[:], &TreeNode{
 			start:    string(word[pos]),
-			current:  word[pos:],
+			current:  matchPattern,
 			children: []*TreeNode{},
 		})
 	}
@@ -129,7 +136,7 @@ func (tree *RadixTree) find(word string) *TreeNode {
 			return currentNode
 		}
 
-		pos = pos + index
+		pos += index
 		for _, node := range currentNode.children {
 			if pos < len(word) && string(word[pos]) == node.start {
 				stack = append(stack[:], node)
