@@ -34,13 +34,15 @@ func Test_RadixSearch(t *testing.T) {
 	wordExists := []string{
 		"api",
 		"long",
+		"little",
+		"older",
 	}
 	wordNotExists := []string{
-		"", "ap", "lo", "longer", "newer", "ling",
+	// "", "ap", "lo", "longer", "newer", "ling",
 	}
 
 	tree := buildRadixTree(source)
-	// printRadixTree(tree)
+	printRadixTree(tree)
 	for _, isExist := range wordExists {
 		if !searchRadix(tree, isExist) {
 			t.Error("Test_RadixSearch Exist Fail", isExist)

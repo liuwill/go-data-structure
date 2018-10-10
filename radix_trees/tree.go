@@ -178,23 +178,11 @@ func (tree *RadixTree) find(word string) *TreeNode {
 		top++
 
 		// fmt.Printf("i=%v \n", currentNode)
-		for _, node := range currentNode.children {
-			// stack = append(stack[:], node)
-			// println(node.start)
-			if pos < len(word) && string(word[pos]) == node.start {
-				stack = append(stack[:], node)
-			}
-		}
-
-		if currentNode.isRoot {
-			pos++
-			continue
-		}
 		// println(word, pos, currentNode.current)
 
 		index := 0
 		for i := 0; i < len(currentNode.current); i++ {
-			if i+pos >= len(word) {
+			if i+pos > len(word) {
 				break
 			}
 
@@ -207,7 +195,13 @@ func (tree *RadixTree) find(word string) *TreeNode {
 		if index > 0 && index == len(currentNode.current) && pos+index == len(word) {
 			return currentNode
 		}
+
 		pos = pos + index
+		for _, node := range currentNode.children {
+			if pos < len(word) && string(word[pos]) == node.start {
+				stack = append(stack[:], node)
+			}
+		}
 	}
 	return nil
 
