@@ -30,15 +30,17 @@ func Test_RadixSearch(t *testing.T) {
 		"api", "list", "new", "newest", "little", "long",
 		"pie", "pai", "paid",
 		"old", "older", "olderer",
+		"log", "logger", "logged",
 	}
 	wordExists := []string{
 		"api",
 		"long",
 		"little",
 		"older",
+		"log", "logger", "logged",
 	}
 	wordNotExists := []string{
-		"", "ap", "lo", "longer", "newer", "ling",
+		"", "ap", "longer", "newer", "ling",
 	}
 
 	tree := buildRadixTree(source)

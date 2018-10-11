@@ -1,7 +1,6 @@
 package radix_trees
 
 type TreeNode struct {
-	isRoot   bool
 	start    string
 	current  string
 	children []*TreeNode
@@ -14,7 +13,6 @@ type RadixTree struct {
 func CreateRadixTree() *RadixTree {
 	tree := &RadixTree{
 		root: &TreeNode{
-			isRoot:   true,
 			children: []*TreeNode{},
 		},
 	}
@@ -65,27 +63,29 @@ func (tree *RadixTree) insert(word string) {
 
 				stack = append(stack[:], node)
 				break
-			} else if inner > 0 {
-				// 如果需要分裂当前节点的处理
-				node.start = string(currentMatch[inner])
-				node.current = currentMatch[inner:]
-				newNode := &TreeNode{
-					start:   string(word[pos]),
-					current: word[pos : pos+inner],
-					children: []*TreeNode{
-						node,
-					},
-				}
-
-				if pos+inner < ll-1 {
-					newNode.children = append(newNode.children, &TreeNode{
-						start:    string(word[pos+inner]),
-						current:  word[pos+inner:],
-						children: []*TreeNode{},
-					})
-				}
-				currentNode.children[index] = newNode
 			}
+
+			// if inner > 0 {
+			// 如果需要分裂当前节点的处理
+			node.start = string(currentMatch[inner])
+			node.current = currentMatch[inner:]
+			newNode := &TreeNode{
+				start:   string(word[pos]),
+				current: word[pos : pos+inner],
+				children: []*TreeNode{
+					node,
+				},
+			}
+
+			if pos+inner < ll {
+				newNode.children = append(newNode.children, &TreeNode{
+					start:    string(word[pos+inner]),
+					current:  word[pos+inner:],
+					children: []*TreeNode{},
+				})
+			}
+			currentNode.children[index] = newNode
+			// }
 
 			isMatch = true
 			break
