@@ -31,7 +31,7 @@ func Test_RadixSearch(t *testing.T) {
 		"pie", "pai", "paid",
 		"old", "older", "olderer",
 		"logger", "log", "logged",
-		"meta", "meta",
+		"meta",
 	}
 	wordExists := []string{
 		"api",

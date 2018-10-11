@@ -12,6 +12,10 @@ type RadixTree struct {
 }
 
 func CreateRadixTree() *RadixTree {
+	defer func() {
+		println("CREATE EMPTY RADIX TREE")
+	}()
+
 	tree := &RadixTree{
 		root: &TreeNode{
 			children: []*TreeNode{},
