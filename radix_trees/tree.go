@@ -3,6 +3,7 @@ package radix_trees
 type TreeNode struct {
 	start    string
 	current  string
+	content  string
 	children []*TreeNode
 }
 
@@ -81,8 +82,11 @@ func (tree *RadixTree) insert(word string) {
 				newNode.children = append(newNode.children, &TreeNode{
 					start:    string(word[pos+inner]),
 					current:  word[pos+inner:],
+					content:  word,
 					children: []*TreeNode{},
 				})
+			} else {
+				newNode.content = word
 			}
 			currentNode.children[index] = newNode
 			// }
@@ -101,9 +105,13 @@ func (tree *RadixTree) insert(word string) {
 		currentNode.children = append(currentNode.children[:], &TreeNode{
 			start:    string(word[pos]),
 			current:  matchPattern,
+			content:  word,
 			children: []*TreeNode{},
 		})
 	}
+	// else { // 不支持重复插入节点
+	// 	currentNode.content = word
+	// }
 }
 
 func (tree *RadixTree) find(word string) *TreeNode {
@@ -132,7 +140,7 @@ func (tree *RadixTree) find(word string) *TreeNode {
 			index++
 		}
 
-		if index > 0 && index == len(currentNode.current) && pos+index == len(word) {
+		if index > 0 && index == len(currentNode.current) && pos+index == len(word) && len(currentNode.content) > 0 {
 			return currentNode
 		}
 

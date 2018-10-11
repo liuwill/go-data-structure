@@ -14,11 +14,11 @@ func printRadixTree(tree *RadixTree) {
 		currentNode := stack[top]
 		top++
 
-		println("node:", currentNode, "=>[", currentNode.start, ":", currentNode.current, "]")
+		println("node:", currentNode, "=>[", currentNode.start, ":", currentNode.current, ":", currentNode.content, "]")
 		for _, node := range currentNode.children {
 			stack = append(stack[:], node)
 
-			println("  Child: ", node, " [Start:", node.start, ", Current:", node.current, "]")
+			println("  Child: ", node, " [Start:", node.start, ", Current:", node.current, ", Content", node.content, "]")
 		}
 
 		println("---------------------------------------------------------")
@@ -30,7 +30,8 @@ func Test_RadixSearch(t *testing.T) {
 		"api", "list", "new", "newest", "little", "long",
 		"pie", "pai", "paid",
 		"old", "older", "olderer",
-		"log", "logger", "logged",
+		"logger", "log", "logged",
+		"meta", "meta",
 	}
 	wordExists := []string{
 		"api",
@@ -40,7 +41,7 @@ func Test_RadixSearch(t *testing.T) {
 		"log", "logger", "logged",
 	}
 	wordNotExists := []string{
-		"", "ap", "longer", "newer", "ling",
+		"", "ap", "lo", "longer", "newer", "ling",
 	}
 
 	tree := buildRadixTree(source)
