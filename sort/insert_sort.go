@@ -33,6 +33,32 @@ func insertSort(rawList []int) []int {
 	return list
 }
 
+// Reduce Find
+func insertFindItem(list []int, val int, cursor int) []int {
+	pos := cursor
+	for i := cursor; i > 0; i-- {
+		if val < list[i-1] {
+			list[i] = list[i-1]
+			pos--
+		} else {
+			break
+		}
+	}
+
+	list[pos] = val
+	return list
+}
+
+func insertSortFind(rawList []int) []int {
+	list := make([]int, len(rawList))
+	cursor := 0
+	for _, val := range rawList {
+		list = insertFindItem(list, val, cursor)
+		cursor++
+	}
+	return list
+}
+
 // Slice And Dispatch
 func insertItemSlice(list []int, val int) []int {
 	pos := findInsertPos(list, val, len(list))

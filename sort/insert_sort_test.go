@@ -33,11 +33,15 @@ func Test_InsertSort(t *testing.T) {
 
 	list := insertSort(rawList)
 	listSlice := insertSortSlice(rawList)
+	listFind := insertSortFind(rawList)
 	if !compareList(expect, list) {
 		t.Error("Test_InsertSort insertSort Fail", list)
 	}
 	if !compareList(expect, listSlice) {
 		t.Error("Test_InsertSort insertSortSlice Fail", listSlice)
+	}
+	if !compareList(expect, listFind) {
+		t.Error("Test_InsertSort insertSortFind Fail", listFind)
 	}
 	t.Log("Test_InsertSort RUN TEST")
 }
