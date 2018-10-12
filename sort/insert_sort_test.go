@@ -32,9 +32,12 @@ func Test_InsertSort(t *testing.T) {
 	expect := systemSort(rawList)
 
 	list := insertSort(rawList)
-
+	listSlice := insertSortSlice(rawList)
 	if !compareList(expect, list) {
-		t.Error("Test_InsertSort Fail", list)
+		t.Error("Test_InsertSort insertSort Fail", list)
+	}
+	if !compareList(expect, listSlice) {
+		t.Error("Test_InsertSort insertSortSlice Fail", listSlice)
 	}
 	t.Log("Test_InsertSort RUN TEST")
 }

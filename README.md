@@ -6,5 +6,6 @@
 
 ## List
 
-* [radix sort](./radix_sort/sort.go)
-* [radix tree](./radix_trees/tree.go)
+* 基数排序 [radix sort](./radix_sort/sort.go)
+* 基数树 [radix tree](./radix_trees/tree.go)
+* 插入排序 [insert tree](./sort/insert_sort.go)
