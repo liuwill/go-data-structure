@@ -1,4 +1,4 @@
-package sort
+package sorts
 
 func findInsertPos(list []int, val int, cursor int) int {
 	pos := 0
@@ -33,16 +33,34 @@ func insertSort(rawList []int) []int {
 	return list
 }
 
+// Real Insertion Sort
+func insertSortReal(rawList []int) []int {
+	list := make([]int, len(rawList))
+	copy(list, rawList)
+	for i := 1; i < len(list); i++ {
+		pos := i
+		val := list[i]
+		for j := i; j > 0; j-- {
+			if val >= list[j-1] {
+				break
+			}
+			list[j] = list[j-1]
+			pos--
+		}
+		list[pos] = val
+	}
+	return list
+}
+
 // Reduce Find
 func insertFindItem(list []int, val int, cursor int) []int {
 	pos := cursor
 	for i := cursor; i > 0; i-- {
-		if val < list[i-1] {
-			list[i] = list[i-1]
-			pos--
-		} else {
+		if val >= list[i-1] {
 			break
 		}
+		list[i] = list[i-1]
+		pos--
 	}
 
 	list[pos] = val

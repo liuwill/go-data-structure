@@ -1,4 +1,4 @@
-package sort
+package sorts
 
 import (
 	"sort"
@@ -34,6 +34,7 @@ func Test_InsertSort(t *testing.T) {
 	list := insertSort(rawList)
 	listSlice := insertSortSlice(rawList)
 	listFind := insertSortFind(rawList)
+	listReal := insertSortReal(rawList)
 	if !compareList(expect, list) {
 		t.Error("Test_InsertSort insertSort Fail", list)
 	}
@@ -42,6 +43,9 @@ func Test_InsertSort(t *testing.T) {
 	}
 	if !compareList(expect, listFind) {
 		t.Error("Test_InsertSort insertSortFind Fail", listFind)
+	}
+	if !compareList(expect, listReal) {
+		t.Error("Test_InsertSort insertSortReal Fail", listReal)
 	}
 	t.Log("Test_InsertSort RUN TEST")
 }
