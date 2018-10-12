@@ -12,8 +12,27 @@ func findInsertPos(list []int, val int, cursor int) int {
 	return pos
 }
 
+func findBinaryPos(list []int, val int, cursor int) int {
+	pos := 0
+
+	low, high := 0, cursor
+	for low <= high {
+		pos = (low + high) / 2
+		if list[pos] > val {
+			high = pos - 1
+		} else {
+			low = pos + 1
+		}
+	}
+
+	if list[pos] < val && pos < cursor {
+		pos++
+	}
+	return pos
+}
+
 func insertItem(list []int, val int, cursor int) []int {
-	pos := findInsertPos(list, val, cursor)
+	pos := findBinaryPos(list, val, cursor)
 
 	for i := cursor - 1; i >= pos; i-- {
 		list[i+1] = list[i]

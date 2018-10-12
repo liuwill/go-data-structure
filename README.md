@@ -8,7 +8,7 @@
 
 * 基数排序 [radix sort](./radix_sort/sort.go)
 * 基数树 [radix tree](./radix_trees/tree.go)
-* 插入排序 [insertion tree](./sort/insert_sort.go)
+* 插入排序 [insertion tree](./sorts/insert_sort.go)
 
 ### radix sort
 
