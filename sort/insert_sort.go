@@ -25,6 +25,7 @@ func insertItem(list []int, val int, cursor int) []int {
 
 func insertSort(rawList []int) []int {
 	list := make([]int, len(rawList))
+	copy(list, rawList)
 	cursor := 0
 	for _, val := range rawList {
 		list = insertItem(list, val, cursor)
