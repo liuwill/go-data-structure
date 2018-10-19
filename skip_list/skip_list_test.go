@@ -3,6 +3,8 @@ package skip_list
 import (
 	"fmt"
 	"math/rand"
+	"os"
+	"strings"
 	"testing"
 )
 
@@ -11,13 +13,38 @@ func printSkipList(skipList *SkipList) {
 	head := skipList.head
 
 	for head != nil {
-		fmt.Printf("%v ", head)
-		println(head)
+		// fmt.Printf("%v ", head)
+		println(head.toString())
+		println("=============================")
 		if len(head.next) < 1 {
 			break
 		}
 		head = head.next[0]
 	}
+}
+
+func (node *SkipNode) toString() string {
+	if node.isNil {
+		return "nil"
+	}
+
+	line := "{\n"
+	if !node.isRoot {
+		line += "  addr:" + fmt.Sprintf("%p", node) + "\n"
+		line += "  parent:" + fmt.Sprintf("%p", node.parent) + "\n"
+		line += "  key:" + fmt.Sprintf("%v", node.key) + "\n"
+		line += "  val:" + fmt.Sprintf("%v", node.val) + "\n"
+	} else {
+		line += "  ROOT\n"
+	}
+
+	posList := make([]string, len(node.next))
+	for i, pos := range node.next {
+		posList[i] = fmt.Sprintf("%p", pos)
+	}
+	line += "  next:[" + strings.Join(posList, ",") + "]\n"
+	line += "}"
+	return line
 }
 
 func Test_SkipList(t *testing.T) {
@@ -39,6 +66,11 @@ func Test_SkipList(t *testing.T) {
 			t.Error("Test_SkipList Fail", item)
 			printSkipList(skipList)
 		}
+	}
+
+	mode := os.Getenv("TEST_MODE")
+	if mode == "debug" {
+		printSkipList(skipList)
 	}
 
 	expect[1] = rand.Int()

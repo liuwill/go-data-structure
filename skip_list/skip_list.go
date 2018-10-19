@@ -75,11 +75,12 @@ func (list *SkipList) insert(key int, val int) {
 		head = makeNode(level, key, val)
 
 		// println(head)
-		for i := 0; i < level; i++ {
+		for i := level - 1; i >= 0; i-- {
 			// println(i, "%%%%%%%%%%%", updated[i], updated[i].next[i], head)
 			head.next[i] = updated[i].next[i]
 			updated[i].next[i] = head
 		}
+		head.parent = updated[0]
 		// fmt.Printf("  -- %v\n", head)
 
 		list.num++
