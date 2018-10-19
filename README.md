@@ -12,15 +12,15 @@
 
 ### radix sort
 
-radix sort[^1] is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits which share the same significant position and value.
+radix sort[1] is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits which share the same significant position and value.
 
 ### radix tree
 
-a radix tree[^2] (also radix trie or compact prefix tree) is a data structure that represents a space-optimized trie (prefix tree) in which each node that is the only child is merged with its parent. The result is that the number of children of every internal node is at most the radix r of the radix tree, where r is a positive integer and a power x of 2, having x ≥ 1. Unlike in regular tries, edges can be labeled with sequences of elements as well as single elements. This makes radix trees much more efficient for small sets (especially if the strings are long) and for sets of strings that share long prefixes.
+a radix tree[2] (also radix trie or compact prefix tree) is a data structure that represents a space-optimized trie (prefix tree) in which each node that is the only child is merged with its parent. The result is that the number of children of every internal node is at most the radix r of the radix tree, where r is a positive integer and a power x of 2, having x ≥ 1. Unlike in regular tries, edges can be labeled with sequences of elements as well as single elements. This makes radix trees much more efficient for small sets (especially if the strings are long) and for sets of strings that share long prefixes.
 
 ### insertion tree
 
-Insertion sort[^3] is a simple sorting algorithm that builds the final sorted array (or list) one item at a time.
+Insertion sort[3] is a simple sorting algorithm that builds the final sorted array (or list) one item at a time.
 
 * Simple implementation: Jon Bentley shows a three-line C version, and a five-line optimized version
 * Efficient for (quite) small data sets, much like other quadratic sorting algorithms
@@ -30,6 +30,19 @@ Insertion sort[^3] is a simple sorting algorithm that builds the final sorted ar
 * In-place; i.e., only requires a constant amount O(1) of additional memory space
 * Online; i.e., can sort a list as it receives it
 
-[^1]: https://en.wikipedia.org/wiki/Radix_sort  "Radix Sort"
-[^2]: https://en.wikipedia.org/wiki/Radix_tree  "Radix Tree"
-[^3]: https://en.wikipedia.org/wiki/Insertion_sort  "Insertion Sort"
+### skip list
+
+Skip lists[4] are a data structure that can be used in place of balanced trees.
+Skip lists use probabilistic balancing rather than strictly enforced balancing
+and as a result the algorithms for insertion and deletion in skip lists are
+much simpler and significantly faster than equivalent algorithms for
+balanced trees.
+
+skip list[5] allows fast search within an ordered sequence of elements. Fast search is made possible by maintaining a linked hierarchy of subsequences, with each successive subsequence skipping over fewer elements than the previous one (see the picture below on the right). Searching starts in the sparsest subsequence until two consecutive elements have been found, one smaller and one larger than or equal to the element searched for. Via the linked hierarchy, these two elements link to elements of the next sparsest subsequence, where searching is continued until finally we are searching in the full sequence. The elements that are skipped over may be chosen probabilistically  or deterministically, with the former being more common.
+
+
+[1]: https://en.wikipedia.org/wiki/Radix_sort  "Radix Sort"
+[2]: https://en.wikipedia.org/wiki/Radix_tree  "Radix Tree"
+[3]: https://en.wikipedia.org/wiki/Insertion_sort  "Insertion Sort"
+[4]: https://www.cl.cam.ac.uk/teaching/0506/Algorithms/skiplists.pdf  "Skip List"
+[5]: https://en.wikipedia.org/wiki/Skip_list  "Skip List"
