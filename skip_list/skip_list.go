@@ -1,8 +1,14 @@
 package skip_list
 
-import "math/rand"
+import (
+	"fmt"
+	"math/rand"
+)
 
-const MaxLevel = 4
+const (
+	MaxLevel = 10
+	cap      = 1.0 / 2.0
+)
 
 type SkipNode struct {
 	next   []*SkipNode
@@ -10,6 +16,7 @@ type SkipNode struct {
 	key    int
 	val    int
 	isRoot bool
+	isNil  bool
 	// level  int
 }
 
@@ -21,43 +28,62 @@ type SkipList struct {
 }
 
 func InitSkipList(keyword string) *SkipList {
-	return &SkipList{
+	list := &SkipList{
 		keyword: keyword,
+		level:   MaxLevel,
 		head: &SkipNode{
 			isRoot: true,
-			next:   []*SkipNode{},
+			next:   make([]*SkipNode, MaxLevel),
 		},
 	}
+	tail := &SkipNode{
+		isNil: true,
+	}
+	println("tail", tail)
+
+	for i := 0; i < MaxLevel; i++ {
+		list.head.next[i] = tail
+	}
+
+	return list
 }
 
 func (list *SkipList) insert(key int, val int) {
 	updated := make([]*SkipNode, MaxLevel)
 	head := list.head
-	for i := len(head.next); i >= 0; i-- {
-		for head.next[i].key < key {
+	for i := len(head.next) - 1; i >= 0; i-- {
+		for head.next[i].key < key && !head.next[i].isNil {
 			head = head.next[i]
 		}
 		updated[i] = head
 	}
 
-	head = head.next[1]
+	println(key, val, "==================================================", head)
+	head = head.next[0]
 	if head.key == key {
 		head.val = val
 	} else {
 		level := randomLevel()
-		if level < list.level {
-			for i := list.level + 1; i >= level; i-- {
+		println("randomLevel", level)
+		if level > list.level {
+			for i := list.level - 1; i >= level; i-- {
 				updated[i] = list.head
 			}
 			list.level = level
 		}
 		head = makeNode(level, key, val)
 
-		for i := 1; i < level; i++ {
+		println(head)
+		for i := 0; i < level; i++ {
+			println(i, "%%%%%%%%%%%", updated[i], updated[i].next[i], head)
 			head.next[i] = updated[i].next[i]
 			updated[i].next[i] = head
 		}
+		fmt.Printf("  -- %v\n", head)
+
+		list.num++
 	}
+	fmt.Printf("=== %v\n", list.head.next)
 }
 
 func (list *SkipList) find() {
@@ -78,7 +104,8 @@ func makeNode(level int, key int, val int) *SkipNode {
 
 func randomLevel() int {
 	level := 1
-	for level < MaxLevel && rand.Float32() < 1/2 {
+	for level < MaxLevel && rand.Float32() < cap {
+		// println("------", rand.Float32() < cap, cap, rand.Float32())
 		level++
 	}
 	return level
