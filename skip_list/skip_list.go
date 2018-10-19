@@ -1,7 +1,6 @@
 package skip_list
 
 import (
-	"fmt"
 	"math/rand"
 )
 
@@ -39,7 +38,7 @@ func InitSkipList(keyword string) *SkipList {
 	tail := &SkipNode{
 		isNil: true,
 	}
-	println("tail", tail)
+	// println("tail", tail)
 
 	for i := 0; i < MaxLevel; i++ {
 		list.head.next[i] = tail
@@ -58,41 +57,52 @@ func (list *SkipList) insert(key int, val int) {
 		updated[i] = head
 	}
 
-	println(key, val, "==================================================", head)
+	// println(key, val, "==================================================", head)
 	head = head.next[0]
 	if head.key == key {
 		head.val = val
 	} else {
 		level := randomLevel()
-		println("randomLevel", level)
+		// println("randomLevel", level)
+		/* 如果需要动态增加level
 		if level > list.level {
 			for i := list.level - 1; i >= level; i-- {
 				updated[i] = list.head
 			}
 			list.level = level
 		}
+		*/
 		head = makeNode(level, key, val)
 
-		println(head)
+		// println(head)
 		for i := 0; i < level; i++ {
-			println(i, "%%%%%%%%%%%", updated[i], updated[i].next[i], head)
+			// println(i, "%%%%%%%%%%%", updated[i], updated[i].next[i], head)
 			head.next[i] = updated[i].next[i]
 			updated[i].next[i] = head
 		}
-		fmt.Printf("  -- %v\n", head)
+		// fmt.Printf("  -- %v\n", head)
 
 		list.num++
 	}
-	fmt.Printf("=== %v\n", list.head.next)
+	// fmt.Printf("=== %v\n", list.head.next)
 }
 
-func (list *SkipList) find() {
+func (list *SkipList) find(key int) int {
+	head := list.head
 
+	for i := len(head.next) - 1; i >= 0; i-- {
+		for head.next[i].key < key && !head.next[i].isNil {
+			head = head.next[i]
+		}
+	}
+	head = head.next[0]
+	if head.key == key {
+		return head.val
+	}
+	return -1
 }
 
-func (list *SkipList) delete() {
-
-}
+// func (list *SkipList) delete() {}
 
 func makeNode(level int, key int, val int) *SkipNode {
 	return &SkipNode{
@@ -105,7 +115,6 @@ func makeNode(level int, key int, val int) *SkipNode {
 func randomLevel() int {
 	level := 1
 	for level < MaxLevel && rand.Float32() < cap {
-		// println("------", rand.Float32() < cap, cap, rand.Float32())
 		level++
 	}
 	return level
