@@ -83,5 +83,10 @@ func Test_SkipList(t *testing.T) {
 	if skipList.find(unexpected[0]) != -1 {
 		t.Error("Test_SkipList Fail", unexpected)
 	}
+
+	skipList.delete(expect[0])
+	if skipList.find(expect[0]) != -1 {
+		t.Error("Test_SkipList Fail", expect)
+	}
 	t.Log("Test_SkipList Success", skipList)
 }

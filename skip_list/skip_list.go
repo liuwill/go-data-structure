@@ -22,6 +22,7 @@ type SkipNode struct {
 type SkipList struct {
 	keyword string
 	head    *SkipNode
+	tail    *SkipNode
 	level   int
 	num     int
 }
@@ -38,6 +39,8 @@ func InitSkipList(keyword string) *SkipList {
 	tail := &SkipNode{
 		isNil: true,
 	}
+
+	list.tail = tail
 	// println("tail", tail)
 
 	for i := 0; i < MaxLevel; i++ {
@@ -103,7 +106,30 @@ func (list *SkipList) find(key int) int {
 	return -1
 }
 
-// func (list *SkipList) delete() {}
+func (list *SkipList) delete(key int) {
+	updated := make([]*SkipNode, MaxLevel)
+	head := list.head
+	for i := len(head.next) - 1; i >= 0; i-- {
+		for head.next[i].key < key && !head.next[i].isNil {
+			head = head.next[i]
+		}
+		updated[i] = head
+	}
+
+	head = head.next[0]
+	if head.key == key {
+		for i := 0; i < list.level; i++ {
+			if updated[i].next[i] != head {
+				break
+			}
+			updated[i].next[i] = head.next[i]
+		}
+
+		// for list.level > 0 && list.head.next[list.level-1].isNil {
+		// 	list.level--
+		// }
+	}
+}
 
 func makeNode(level int, key int, val int) *SkipNode {
 	return &SkipNode{
