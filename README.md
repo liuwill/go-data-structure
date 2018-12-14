@@ -10,6 +10,8 @@
 * 基数树 [radix tree](./radix_trees/tree.go)
 * 插入排序 [insertion tree](./sorts/insert_sort.go)
 
+* Promise [Promise](./sorts/insert_sort.go)
+
 ### radix sort
 
 radix sort[1] is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits which share the same significant position and value.
@@ -40,9 +42,15 @@ balanced trees.
 
 skip list[5] allows fast search within an ordered sequence of elements. Fast search is made possible by maintaining a linked hierarchy of subsequences, with each successive subsequence skipping over fewer elements than the previous one (see the picture below on the right). Searching starts in the sparsest subsequence until two consecutive elements have been found, one smaller and one larger than or equal to the element searched for. Via the linked hierarchy, these two elements link to elements of the next sparsest subsequence, where searching is continued until finally we are searching in the full sequence. The elements that are skipped over may be chosen probabilistically  or deterministically, with the former being more common.
 
+### Promise
+
+The Promise[6] object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.
+
+
 
 [1]: https://en.wikipedia.org/wiki/Radix_sort  "Radix Sort"
 [2]: https://en.wikipedia.org/wiki/Radix_tree  "Radix Tree"
 [3]: https://en.wikipedia.org/wiki/Insertion_sort  "Insertion Sort"
 [4]: https://www.cl.cam.ac.uk/teaching/0506/Algorithms/skiplists.pdf  "Skip List"
 [5]: https://en.wikipedia.org/wiki/Skip_list  "Skip List"
+[6]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise  "Promise"

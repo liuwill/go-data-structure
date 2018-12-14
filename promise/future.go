@@ -1,8 +1,8 @@
 package promise
 
-type Resolve func(interface{}) interface{}
+type Resolve func(interface{}) (interface{}, error)
 
-type Reject func(interface{})
+type Reject func(error)
 
 type Ticket func(resolve Resolve, reject Reject)
 
@@ -19,9 +19,10 @@ func NewFuture(init Ticket) *Future {
 }
 
 func (future *Future) then(callback Resolve) *Future {
-	future.nextTicket(func(response interface{}) interface{} {
-		future.response = callback(response)
-		return nil
+	future.nextTicket(func(response interface{}) (interface{}, error) {
+		res, err := callback(response)
+		future.response = res
+		return nil, err
 	}, future.reject)
 
 	return NewFuture(func(resolve Resolve, reject Reject) {
@@ -29,10 +30,10 @@ func (future *Future) then(callback Resolve) *Future {
 	})
 }
 
-func handler(source int) *Future {
+func handlerFuture(source int) *Future {
 	return NewFuture(func(resolve Resolve, reject Reject) {
 		resolve(source)
-	}).then(func(response interface{}) interface{} {
-		return response
+	}).then(func(response interface{}) (interface{}, error) {
+		return response, nil
 	})
 }
