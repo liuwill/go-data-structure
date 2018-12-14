@@ -10,7 +10,7 @@
 * 基数树 [radix tree](./radix_trees/tree.go)
 * 插入排序 [insertion tree](./sorts/insert_sort.go)
 
-* Promise [Promise](./sorts/insert_sort.go)
+* Promise [Promise](./promise/future.go)
 
 ### radix sort
 
