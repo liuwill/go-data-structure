@@ -1,5 +1,9 @@
 package bloom_filter
 
+import (
+	"math"
+)
+
 type BloomFilter struct {
 	Hash []bool
 	Size int
@@ -34,14 +38,42 @@ func (filter *BloomFilter) contain(input string) bool {
 }
 
 var hashList = []func(intput string, size int) int{
-	func(intput string, size int) int {
-		return 0
+	func(input string, size int) int {
+		hash := 5381
+
+		for charIndex := 0; charIndex < len(input); charIndex += 1 {
+			char := int(input[charIndex])
+
+			hash = (hash << 5) + hash + char
+		}
+
+		return int(math.Abs(float64(hash % size)))
 	},
-	func(intput string, size int) int {
-		return 0
+	func(input string, size int) int {
+		hash := 0
+
+		for charIndex := 0; charIndex < len(input); charIndex += 1 {
+			char := int(input[charIndex])
+
+			hash = (hash << 5) + hash + char
+			hash &= hash
+			hash = int(math.Abs(float64(hash)))
+		}
+
+		return hash % size
 	},
-	func(intput string, size int) int {
-		return 0
+	func(input string, size int) int {
+		hash := 0
+
+		for charIndex := 0; charIndex < len(input); charIndex += 1 {
+			char := int(input[charIndex])
+
+			hash = (hash << 5) - hash
+			hash += char
+			hash &= hash
+		}
+
+		return int(math.Abs(float64(hash % size)))
 	},
 }
 

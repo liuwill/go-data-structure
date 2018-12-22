@@ -11,10 +11,10 @@ usage()
   echo "USAGE: $CALLER [-h] COMMANDS"
   echo "       $CALLER [ --help ]"
   echo "COMMANDS:"
-  echo "    install       鍒涘缓docker瀹瑰櫒"
-  echo "    start         鍚姩docker瀹瑰櫒"
-  echo "    test          杩愯鍗曞厓娴嬭瘯"
-  echo "    enter         杩涘叆docker瀹瑰櫒"
+  echo "    install       创建docker容器"
+  echo "    start         启动docker容器"
+  echo "    test          运行单元测试"
+  echo "    enter         进入docker容器"
   echo "Run '$CALLER COMMAND --help' for more information on a command."
   exit 1
 }
@@ -66,7 +66,7 @@ checkDockerInstalled () {
   check_result=`which docker`
 
   if [ ! "$check_result" ]; then
-    echo "娌℃湁妫€娴嬪埌docker锛岃鍏堝畨瑁卍ocker涔嬪悗鍐嶈瘯"
+    echo "没有检测到docker，请先安装docker之后再试"
     exit 1
   fi
 }
@@ -82,7 +82,7 @@ DOCKER_START_STATUS=$?
 
 if [ "$1" = "install" ]; then
   if [ "$DOCKER_START_STATUS" != "0" ]; then
-    echo "瀹瑰櫒宸茬粡瀛樺湪"
+    echo "容器已经存在"
     exit 0
   fi
   installDocker
@@ -118,4 +118,3 @@ elif [ "$1" = "test" ]; then
 
   execTestKata
 fi
-
