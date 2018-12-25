@@ -2,4 +2,5 @@ cover.out
 coverage.txt
 coverage.html
 */*.test
+*/*.go_
 dist/
