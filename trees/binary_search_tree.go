@@ -4,26 +4,28 @@ type BinaryNode struct {
 	Left  *BinaryNode
 	Right *BinaryNode
 	Val   int
+	Level int
 }
 
-func CreateBinaryNode(val int) *BinaryNode {
+func CreateBinaryNode(val int, level int) *BinaryNode {
 	return &BinaryNode{
 		Left:  nil,
 		Right: nil,
 		Val:   val,
+		Level: level,
 	}
 }
 
 func (node *BinaryNode) insert(val int) {
 	if val < node.Val {
 		if node.Left == nil {
-			node.Left = CreateBinaryNode(val)
+			node.Left = CreateBinaryNode(val, node.Level+1)
 		} else {
 			node.Left.insert(val)
 		}
 	} else {
 		if node.Right == nil {
-			node.Right = CreateBinaryNode(val)
+			node.Right = CreateBinaryNode(val, node.Level+1)
 		} else {
 			node.Right.insert(val)
 		}
@@ -31,21 +33,24 @@ func (node *BinaryNode) insert(val int) {
 }
 
 type BinaryTree struct {
-	Root *BinaryNode
+	Root  *BinaryNode
+	Count int
 }
 
 func InitBinaryTree() *BinaryTree {
 	return &BinaryTree{
-		Root: nil,
+		Root:  nil,
+		Count: 0,
 	}
 }
 
 func (tree *BinaryTree) insert(val int) {
 	if tree.Root == nil {
-		tree.Root = CreateBinaryNode(val)
+		tree.Root = CreateBinaryNode(val, 0)
 	} else {
 		tree.Root.insert(val)
 	}
+	tree.Count++
 }
 
 func (tree *BinaryTree) search(val int) bool {
