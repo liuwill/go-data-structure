@@ -6,15 +6,7 @@ type BinaryNode struct {
 	Val   int
 }
 
-func (node *BinaryNode) insert(val int) {
-
-}
-
-type BinaryTree struct {
-	Root *BinaryNode
-}
-
-func (tree *BinaryTree) createNode(val int) *BinaryNode {
+func CreateBinaryNode(val int) *BinaryNode {
 	return &BinaryNode{
 		Left:  nil,
 		Right: nil,
@@ -22,10 +14,53 @@ func (tree *BinaryTree) createNode(val int) *BinaryNode {
 	}
 }
 
+func (node *BinaryNode) insert(val int) {
+	if val < node.Val {
+		if node.Left == nil {
+			node.Left = CreateBinaryNode(val)
+		} else {
+			node.Left.insert(val)
+		}
+	} else {
+		if node.Right == nil {
+			node.Right = CreateBinaryNode(val)
+		} else {
+			node.Right.insert(val)
+		}
+	}
+}
+
+type BinaryTree struct {
+	Root *BinaryNode
+}
+
+func InitBinaryTree() *BinaryTree {
+	return &BinaryTree{
+		Root: nil,
+	}
+}
+
 func (tree *BinaryTree) insert(val int) {
 	if tree.Root == nil {
-		tree.Root = tree.createNode(val)
+		tree.Root = CreateBinaryNode(val)
 	} else {
 		tree.Root.insert(val)
 	}
+}
+
+func (tree *BinaryTree) search(val int) bool {
+	root := tree.Root
+	for root != nil {
+		if root.Val == val {
+			return true
+		}
+
+		if root.Val < val {
+			root = root.Left
+		} else {
+			root = root.Right
+		}
+	}
+
+	return false
 }
