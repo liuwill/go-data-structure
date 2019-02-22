@@ -45,10 +45,15 @@ func Test_BinarySearchTree(t *testing.T) {
 			tree.insert(item)
 		}
 
+		count := 0
 		for _, item := range list {
 			if !tree.search(item) {
 				t.Error("Test_BinarySearchTree Fail", item, list)
 			}
+			count += item
+		}
+		if tree.search(count) {
+			t.Error("Test_BinarySearchTree Fail", count, list)
 		}
 	}
 

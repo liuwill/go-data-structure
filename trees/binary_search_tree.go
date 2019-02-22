@@ -60,7 +60,7 @@ func (tree *BinaryTree) search(val int) bool {
 			return true
 		}
 
-		if root.Val < val {
+		if val < root.Val {
 			root = root.Left
 		} else {
 			root = root.Right

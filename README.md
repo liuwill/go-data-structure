@@ -13,6 +13,8 @@
 * Promise [Promise](./promise/future.go)
 * Bloom filter [Bloom filter](./bloom_filter/filter.go)
 
+* Binary Search Tree [Binary Search Tree](./trees/binary_search_tree.go)
+
 ### radix sort
 
 radix sort[1] is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits which share the same significant position and value.
